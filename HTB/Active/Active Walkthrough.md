@@ -1,3 +1,6 @@
+# Active - HTB Walkthrough
+![Active](Active.png)
+
 # Enumeration
 
 Starting out I knew this box was going to probably be an AD/Windows box due to the name and description, so I ran an initial nmap scan to see what ports/services the box had to offer.
