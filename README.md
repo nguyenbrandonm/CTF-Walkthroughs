@@ -1,2 +1,4 @@
-# CTF-Walkthrough
-CTF Walkthrough from various platforms
+# CTF-Walkthroughs
+Repo for all my CTF Walkthroughs from various platforms:
+HTB
+THM
