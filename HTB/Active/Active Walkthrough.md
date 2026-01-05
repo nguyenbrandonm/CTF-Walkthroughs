@@ -3,7 +3,7 @@
 Starting out I knew this box was going to probably be an AD/Windows box due to the name and description, so I ran an initial nmap scan to see what ports/services the box had to offer.
 ## nmap
 ``` bash
-sudo nmap -Pn -A -T4 HOST -oA initial.HOST
+sudo nmap -Pn -A -T4 IP -oA initial.HOST
 ```
 ![Initial Nmap Scan](nmap.png)
 Upon reviewing our scan results I see that we are potentially dealing with a windows server 2008 that of course is severely outdated. Usually when I work on a windows machine anonymous smb authentication is where I like to begin probing.
@@ -29,7 +29,7 @@ Once we take a look at the newly downloaded file I was able to identify some cre
 ## User.txt
 Before we move into more post-exploitation I went back to smbclient and authenticated with the new user credentials.
 ``` bash
-smbclient //10.129.54.46/Users -U active.htb/SVC_TGS --password=PASSWORD
+smbclient //IP/Users -U active.htb/SVC_TGS --password=PASSWORD
 ```
 
 # Post-Exploitation
@@ -39,7 +39,7 @@ Once I established the session I went into the SVC_TGS users Desktop to retrieve
 ## Kerberoasting
 I then use impackets "GetUserSPNs.py" to attack Kerberos to see if I can retrieve any SPN attached to user accounts.
 ``` bash
-GetUserSPNs.py DOMAIN\USER:PASSWORD -request -dc-ip DC IP
+GetUserSPNs.py DOMAIN/USER:PASSWORD -request -dc-ip DC IP
 ```
 ![Kerberoasting w/ SVC_TGS](Kerberoast.png)
 
