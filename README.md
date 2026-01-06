@@ -1,4 +1,6 @@
-
+<p align="center">
+  <img src="Screenshots/CTF-Walkthroughs.png" width=650 />
+</p>
 
 ## About this project
 This repository contains structured walkthroughs for Capture The Flag (CTF) challenges across multiple platforms.
