@@ -14,9 +14,11 @@ sudo nmap -Pn -A -T4 IP -oA initial.IP
 From our scan we can see that we only have port 80 open on this machine that seems to just be a web server. The next logical step would be to navigate to the site just to see what we can find.
 
 ## Port 80 - HttpFileServer 2.3
-<p align="center"> <img src="Screenshots/HFS - HTTP File Server.png" width="850"> </p>Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
+<p align="center"> <img src="Screenshots/HTTP File Server.png" width="850"> </p>Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
 
-<p align="center"> <img src="Screenshots/.png" width="850"> </p># Exploitation
+<p align="center"> <img src="Screenshots/admin panel.png" width="850"> </p>
+
+# Exploitation
 Remembering back to the description of the box I opened up a msfconsole session.
 
 ``` bash
@@ -41,7 +43,7 @@ set lhosts tun0
 run
 ```
 
-![[Pasted image 20260105170121.png]]
+<p align="center"> <img src="Screenshots/rejetto exploit.png" width="850"> </p>
 
 After running the Metasploit exploit module I was able to establish a "meterpreeter" (GPEN inside joke) session and began to do some post compromise enumeration.
 ## Post-Compromise Enumeration
@@ -52,7 +54,7 @@ sysinfo
 getuid
 ```
 
-![[Pasted image 20260105165150.png]]
+<p align="center"> <img src="Screenshots/meterpreter sysinfo.png" width="850"> </p>
 
 I found that the machine is Windows Server 2012 and we are the user OPTIMUM\kostas. The next thing I wanted to do real quick was check for the user.txt flag.
 
@@ -61,7 +63,7 @@ ls
 cat user.txt
 ```
 
-![[Pasted image 20260105170514.png]]
+<p align="center"> <img src="Screenshots/user.png" width="850"> </p>
 
 Upon further enumeration, I noticed the initial Meterpreter session was running inside a 32-bit process (x86). To improve stability, I migrated into the user’s `explorer.exe` process (x64). By default, Metasploit often lands you in a 32-bit process context on 64-bit Windows, even when the Meterpreter payload itself is x64.
 
@@ -71,7 +73,7 @@ ps
 migrate PID
 ```
 
-![[Pasted image 20260105172037.png]]
+<p align="center"> <img src="Screenshots/process migrate.png" width="850"> </p>
 
 After awhile of finding nothing to useful to escalate I decided to background my session to use a metasploit module to find local privesc options for the session I had established using the post-exploitation module "post/multi/recon/local_exploit_suggester".
 
