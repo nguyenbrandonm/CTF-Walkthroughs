@@ -1,5 +1,8 @@
 # Optimum - Walkthrough
-![[Pasted image 20260105154154.png]]
+<p align="center">
+  <img src="Screenshots/Optimum.png" alt="HTB Optimum Walkthrough" width="600">
+</p>
+
 # Enumeration
 Starting out we know that this is going to be a Windows box with a known CVE module within Metasploit so we will go that route because why make it more difficult than it needs to be?
 ## nmap
@@ -7,16 +10,13 @@ Starting out we know that this is going to be a Windows box with a known CVE mod
 sudo nmap -Pn -A -T4 IP -oA initial.IP
 ```
 
-![[Pasted image 20260105160503.png]]
-
+<p align="center"> <img src="Screenshots/nmap.png" width="850"> </p>
 From our scan we can see that we only have port 80 open on this machine that seems to just be a web server. The next logical step would be to navigate to the site just to see what we can find.
 
 ## Port 80 - HttpFileServer 2.3
-![[Pasted image 20260105162154.png]]
-Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
+<p align="center"> <img src="Screenshots/HFS - HTTP File Server.png" width="850"> </p>Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
 
-![[Pasted image 20260105162552.png]]
-# Exploitation
+<p align="center"> <img src="Screenshots/.png" width="850"> </p># Exploitation
 Remembering back to the description of the box I opened up a msfconsole session.
 
 ``` bash
@@ -29,7 +29,7 @@ Then performed a  search in metasploit to find the related CVE to the rejetto 2.
 search rejetto 2.3
 ```
 
-![[Pasted image 20260105163935.png]]
+<p align="center"> <img src="Screenshots/exploit search.png" width="850"> </p>
 
 After some trial and error of testing these 2, I decided to go with option 1.
 
