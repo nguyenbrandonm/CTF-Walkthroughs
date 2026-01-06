@@ -14,7 +14,7 @@ sudo nmap -Pn -A -T4 IP -oA initial.IP
 From our scan we can see that we only have port 80 open on this machine that seems to just be a web server. The next logical step would be to navigate to the site just to see what we can find.
 
 ## Port 80 - HttpFileServer 2.3
-<p align="center"> <img src="Screenshots/admin panel.png" width="850"> </p>
+<p align="center"> <img src="Screenshots/admin panel.png" width="650"> </p>
 Upon navigating to the server IP we discover this web page and after clicking around and seeing the application functionality I clicked into the HttpFileServer 2.3 link to discover the servers admin panel (rejetto.hfs)
 
 <p align="center"> <img src="Screenshots/HTTPFileServer.png" width="850"> </p>
@@ -109,5 +109,5 @@ dir
 type root.txt
 ```
 
-<p align="center"> <img src="Screenshots/root.png" width="850"> </p>
+<p align="center"> <img src="Screenshots/root.png" width="650"> </p>
 Optimum owned!! Happy Hacking! :)
