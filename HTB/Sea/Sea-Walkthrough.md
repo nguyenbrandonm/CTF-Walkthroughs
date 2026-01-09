@@ -259,7 +259,7 @@ grep -R 8080 2>/dev/null
 
 ![](Screenshots/Pasted_image_20260108222945.png)
 
-This monitoring service look kind of interesting and is being run from the root directory. This makes me think that I am going to have to try some sort of ssh port fwding to redirect this port to a port on my Kali box. Remember what I said at the beginning about SSH being open coming into play later.
+This monitoring service look kind of interesting and is being run from the root directory. This makes me think that I am going to have to try some sort of ssh port fwding to redirect this port to a port on my Kali box. Remember what I said at the beginning about SSH being open coming into play later. Let's go ahead and set up a ssh Local (-L) port foward. I am creating a local port forward that binds my local machine’s port 8081 to the target machine’s localhost interface (127.0.0.1) on port 8080. This allows me to access a service that is only listening internally on the target system by forwarding it through the SSH tunnel.
 
 ```bash
 ssh -L 8081:127.0.0.1:8080 amay@10.129.57.60
@@ -272,7 +272,7 @@ mychemicalromance
 
 ![](Screenshots/Pasted_image_20260108230239.png)
 
-At this point we can forget out our reverse shell we have been interacting with because we now the ssh server offers up password based authentication and not solely ssh keys. We have successfully set up a port forward and should now head over to the browser and look up our ip and respective port.
+Now we can proxy trafficAt this point we can forget out our reverse shell we have been interacting with because we now the ssh server offers up password based authentication and not solely ssh keys. We have successfully set up a port forward and should now head over to the browser and look up our ip and respective port.
 
 ```bash
 localhost:8080
