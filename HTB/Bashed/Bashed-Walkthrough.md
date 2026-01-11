@@ -22,10 +22,14 @@ As always we will begin with an nmap scan of our target.
 ```bash
  sudo nmap -Pn -A -T4 bashed.htb -oA initial.bashed.htb
 ```
-`-Pn - to jump right into port scanning because we know the host is up`
-`-A - 3 in 1 switch (to include: -sC, -sV, -O)`
-`-T4 - fastest you should scan with nmap with also the least chance of missing something`
-`-oA - to output our results into: grepable, regular text, and .xml formatting (.gnmap, .nmap, .xml)`
+
+`-Pn` - to jump right into port scanning because we know the host is up
+
+`-A` - 3 in 1 switch (to include: -sC, -sV, -O)
+
+`-T4` - fastest you should scan with nmap with also the least chance of missing something
+
+`-oA` - to output our results into: grepable, regular text, and .xml formatting (.gnmap, .nmap, .xml)
 
 ![](assets/Pasted_image_20260110215746.png)
 
@@ -35,7 +39,13 @@ Now that the scan has finished we can see there seems to be only 1 port open (Po
 Alright from our scan results we will focus on this port. I'm gonna go ahead and start a feroxbuster scan to run in the background, then navigate to the web page to see what we find.
 
 ![](assets/Pasted_image_20260110220215.png)
+
+Web applications landing page.
+
 ![](assets/Pasted_image_20260110221631.png)
+
+The only other noticeable link within the web appr leads us to this GitHub.
+
 ![](assets/Pasted_image_20260110221802.png)
 
 After a few minutes we find that the application so far has very little functionality, but it does link the GitHub repository related to this machine. It discloses a few potential interesting endpoints for us to possibly check out, but for now lets go back to our ferox scan and see what it found.
