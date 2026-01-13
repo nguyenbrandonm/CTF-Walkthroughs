@@ -57,10 +57,11 @@ When we land on this page and it provides a hyperlink in the body of text that s
 
 ![](Screenshots/Pasted_image_20260108163600.png)
 
-Alright so now we see that there is a registration form. Lets try some simple Reflective XSS.
+Alright so now we see that there is a registration form. Let’s test for reflected XSS behavior in the Website field.
+
 ### Skip this if you want to go for flags, but if you want to hopefully learn something read on
 
-Alright well that did not prove useful but the theory without even using Burp is if there is a stored XSS vulnerability then we can host a http server on our machine and put our ip and a fake file into the website input field to see if we get a hit. Ex: `http://10.10.15.203/xss`.
+Alright well that did not prove useful but the theory without even using Burp is if user input is rendered without sanitization, we may be able to observe external resource loading, which can indicate XSS. Ex: `http://10.10.15.203/xss`.
 
 ``` bash
 python3 -m http.server
@@ -74,7 +75,7 @@ Once we start the server up we can go back to the registration form and fill it 
 
 ![](Screenshots/Pasted_image_20260108165516.png)
 
-And boom! We have a hit. Basic stored XSS. Hopefully you're still with me this was just to go over some of what this machine really is by design suppose to teach a bit of. So this was just testing a XSS PoC to see if this vulnerability existed. By this time our feroxbuster scan should be done so if you haven't, we will go ahead and check on it!
+At this point, we confirm that user-controlled input from the Website field is stored and rendered by the application. This behavior indicates a potential stored XSS condition. By this time our feroxbuster scan should be done so if you haven't, we will go ahead and check on it!
 
 ![](Screenshots/Pasted_image_20260108162432.png)
 
