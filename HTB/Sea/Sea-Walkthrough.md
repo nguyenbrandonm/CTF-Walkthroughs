@@ -52,7 +52,7 @@ Upon navigating to the URL `sea.htb` we land on this home page with 2 tabs on th
 
 ![](Screenshots/Pasted_image_20260108163445.png)
 
-When we land on this page and it provides a hyperlink in the body of text that seems to direct us to a registration panel. A comment is made about being able to add a website which is is interesting because it can open doors for attacks like stored XSS. Let's click on the hyperlink and see what's going on here. 
+When we land on this page and it provides a hyperlink in the body of text that seems to direct us to a registration panel. A comment is made about being able to add a website which is quite interesting because it can open doors for attacks like stored XSS. Let's click on the hyperlink and see what's going on here. 
 
 
 ![](Screenshots/Pasted_image_20260108163600.png)
@@ -60,7 +60,7 @@ When we land on this page and it provides a hyperlink in the body of text that s
 Alright so now we see that there is a registration form. Lets try some simple Reflective XSS.
 ### Skip this if you want to go for flags, but if you want to hopefully learn something read on
 
-Alright well that did not prove useful but the theory without even using Burp is if there is a SSRF vulnerability then we can host a http server on our machine and put our ip and a fake file into the website input field to see if we get a hit. Ex: `http://10.10.15.203/ssrf`.
+Alright well that did not prove useful but the theory without even using Burp is if there is a stored XSS vulnerability then we can host a http server on our machine and put our ip and a fake file into the website input field to see if we get a hit. Ex: `http://10.10.15.203/xss`.
 
 ``` bash
 python3 -m http.server
@@ -74,7 +74,7 @@ Once we start the server up we can go back to the registration form and fill it 
 
 ![](Screenshots/Pasted_image_20260108165516.png)
 
-And boom! We have a hit. Basic SSRF. Hopefully you're still with me this was just to go over some of what this machine really is by design suppose to teach a bit of. So this was just testing a SSRF PoC to see if this vulnerability existed. By this time our feroxbuster scan should be done so if you haven't, we will go ahead and check on it!
+And boom! We have a hit. Basic stored XSS. Hopefully you're still with me this was just to go over some of what this machine really is by design suppose to teach a bit of. So this was just testing a XSS PoC to see if this vulnerability existed. By this time our feroxbuster scan should be done so if you haven't, we will go ahead and check on it!
 
 ![](Screenshots/Pasted_image_20260108162432.png)
 
