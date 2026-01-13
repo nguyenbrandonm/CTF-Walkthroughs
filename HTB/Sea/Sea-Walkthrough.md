@@ -52,9 +52,8 @@ Upon navigating to the URL `sea.htb` we land on this home page with 2 tabs on th
 
 ![](Screenshots/Pasted_image_20260108163445.png)
 
-When we land on this page and it provides a hyperlink in the body of text that seems to direct us to a registration panel. A comment is made about being able to add a website which is quite odd because not only do we as testers worry about input sanitization to prevent things like XSS and CSRF, but it also introduces the potential for SSRF. Let's click on the hyperlink and see what's going on here. 
+When we land on this page and it provides a hyperlink in the body of text that seems to direct us to a registration panel. A comment is made about being able to add a website which is is interesting because it can open doors for attacks like stored XSS. Let's click on the hyperlink and see what's going on here. 
 
-*Fun Fact: SSRF (CWE-918) frequently appears under the OWASP’s Top 10's #1 category, Broken Access Control, since it allows attackers to bypass access restrictions by abusing the server’s trusted network position.*
 
 ![](Screenshots/Pasted_image_20260108163600.png)
 
