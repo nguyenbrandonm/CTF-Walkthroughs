@@ -25,7 +25,7 @@ sudo nmap -Pn -A -T4 sea.htb -oA initial.sea.htb
 ## nmap scan
 ![](Screenshots/Pasted_image_20260108154431.png)
 
-From the results it's evident that port 22 and 80 are open. Based off the description of this box our attack path will most likely be 80 because CVE-2023-41425 involves a XSS workflow in hopes a user interacts with the payload. Continuing on with our enumeration....
+From the results it's evident that port 22 and 80 are open. Based on the description of this box our attack path will most likely be 80 because CVE-2023-41425 involves a XSS workflow in hopes a user interacts with the payload. Continuing on with our enumeration....
 
 ## 80 - Apache httpd 2.4.41
 Next, we’ll enumerate the web application using feroxbuster to identify interesting directories. Its simple syntax and recursive fuzzing support make it a solid choice for quickly mapping out the application.
@@ -39,7 +39,7 @@ While we wait for this scan to complete, I am going to browse over to the applic
 
 ![](Screenshots/Pasted_image_20260108163102.png)
 
-Upon navigating to the URL `sea.htb` we land on this home page with 2 tabs on the right side of the page towards the middle. A big thing with web app pentesting is figuring all out how an application is designed and what the normal workflow is and then conduct testing to try to break, bypass, and eventually fix the application after you are done having your fun. Moving on to checking out the other tabs function.
+Upon navigating to the URL `sea.htb` we land on this home page with 2 tabs on the right side of the page towards the middle. A big thing with web app pentesting is figuring out how an application is designed and what the normal workflow is and then conduct testing to try to break, bypass, and eventually fix the application after you are done having your fun. Moving on to checking out the other tabs function.
 
 ![](Screenshots/Pasted_image_20260108163445.png)
 
@@ -78,7 +78,7 @@ We identify the version number of something as 3.2.0. Continuing on with enumera
 
 ![](Screenshots/Pasted_image_20260108170248.png)
 
-If you have any familiarity with GitHub you know that this is a license that you can chose to include when creating a repository. This file indicates just that. It also shows us the GitHub user who owns this, "turboblack". Ideally during a fingerprint/enumeration phase of a test we could go to his GitHub and try to find out more about the bike theme. If you did go there you would do some in depth reading just to find the the bike theme and figure out that its a wonderCMS theme. Then putting 2+2 together we have the version 3.2.0 from feroxbuster and then the CMS confirmation for the bikes theme. Do a quick google search from "WonderCMS 3.2.0 exploit github" and find the CVE below.
+If you have any familiarity with GitHub you know that this is a license that you can choose to include when creating a repository. This file indicates just that. It also shows us the GitHub user who owns this, "turboblack". Ideally during a fingerprint/enumeration phase of a test we could go to his GitHub and try to find out more about the bike theme. If you did go there you would do some in depth reading just to find the the bike theme and figure out that its a WonderCMS theme. Then putting 2+2 together we have the version 3.2.0 from feroxbuster and then the CMS confirmation for the bikes theme. Do a quick google search from "WonderCMS 3.2.0 exploit github" and find the CVE below.
 
 # Exploitation
 So thanks to the machines description we know the proper CVE to look for and now we have a good idea what field is part of the attack vector. Next step is to search for the correct exploit.
@@ -204,7 +204,7 @@ After a few minutes of letting this task run hashcat was able to crack our passw
 
 ![](Screenshots/Pasted_image_20260108205016.png)
 
-After a few minutes of experimenting we have 2 leads. Not only did I authenticate to the application, but I also was able to switch users; to user amay. At this point I can probably go ahead and grab out first flag in that users directory.
+After a few minutes of experimenting we have 2 leads. Not only did I authenticate to the application, but I also was able to switch users; to user amay. At this point I can probably go ahead and grab the user.txt flag in that users directory.
 
 ![](Screenshots/Pasted_image_20260108205316.png)
 
@@ -254,7 +254,7 @@ grep -R 8080 2>/dev/null
 
 ![](Screenshots/Pasted_image_20260108222945.png)
 
-This monitoring service looks kind of interesting and is being run from the root directory. This makes me think that I am going to have to try some sort of ssh port fwding to redirect this port to a port on my Kali box. Remember what I said at the beginning about SSH being open coming into play later. Let's go ahead and set up a ssh Local (-L) port foward. I am creating a local port forward that binds my local machine’s port 8081 to the target machine’s localhost interface (127.0.0.1) on port 8080. This allows me to access a service that is only listening internally on the target system by forwarding it through the SSH tunnel.
+This monitoring service looks kind of interesting and is being run from the root directory. This makes me think that I am going to have to try some sort of SSH port fwding to redirect this port to a port on my Kali box. Remember what I said at the beginning about SSH being open coming into play later. Let's go ahead and set up a ssh Local (-L) port foward. I am creating a local port forward that binds my local machine’s port 8081 to the target machine’s localhost interface (127.0.0.1) on port 8080. This allows me to access a service that is only listening internally on the target system by forwarding it through the SSH tunnel.
 
 ```bash
 ssh -L 8081:127.0.0.1:8080 amay@10.129.57.60
@@ -267,7 +267,7 @@ mychemicalromance
 
 ![](Screenshots/Pasted_image_20260108230239.png)
 
-At this point we can forget about our reverse shell we have been interacting with because we now the ssh server offers up password based authentication and not solely ssh keys. We have successfully set up a port forward and should now head over to the browser and look up our ip and respective port.
+At this point we can forget about our reverse shell we have been interacting with because we know the SSH server offers up password based authentication and not solely SSH keys. We have successfully set up a port forward and should now head over to the browser and look up our ip and respective port.
 
 ```bash
 localhost:8080
