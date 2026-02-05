@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Screenshots/CTF-Walkthroughs.png" width=650 />
+  <img src="Screenshots/CTFs.png" width=650 />
 </p>
 
 ## About this project
